@@ -23,6 +23,7 @@ logfileSetup () {
 
   if [ ! -d "$dockerLogPath" ]; then
     mkdir -p "$dockerLogPath"
+    chown ${PUID:-1000}:${PGID:-1000} "$dockerLogPath"
     chmod 777 "$dockerLogPath"
   fi
 
@@ -35,6 +36,7 @@ logfileSetup () {
   
   if [ ! -f "$dockerLogPath/$logFileName" ]; then
     echo "" > "$dockerLogPath/$logFileName"
+    chown ${PUID:-1000}:${PGID:-1000} "$dockerLogPath/$logFileName"
     chmod 666 "$dockerLogPath/$logFileName"
   fi
 }

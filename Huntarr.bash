@@ -24,6 +24,7 @@ logfileSetup () {
 
   if [ ! -d "$dockerLogPath" ]; then
     mkdir -p "$dockerLogPath"
+    chown ${PUID:-1000}:${PGID:-1000} "$dockerLogPath"
     chmod 777 "$dockerLogPath"
   fi
 
@@ -36,6 +37,7 @@ logfileSetup () {
   
   if [ ! -f "$dockerLogPath/$logFileName" ]; then
     echo "" > "$dockerLogPath/$logFileName"
+    chown ${PUID:-1000}:${PGID:-1000} "$dockerLogPath/$logFileName"
     chmod 666 "$dockerLogPath/$logFileName"
   fi
 }
@@ -79,10 +81,12 @@ HuntarrAPILimitFile () {
     # Create base directory for various functions/process
     if [ ! -d "/config/huntarr" ]; then
         mkdir -p "/config/huntarr" 
+        chown ${PUID:-1000}:${PGID:-1000} "/config/huntarr"
     fi
     apiLimitFile="Huntarr-api-search-count-$(date +"%Y_%m_%d").txt"
     if [ ! -f "/config/huntarr/$apiLimitFile" ]; then
         echo -n "0" > "/config/huntarr/$apiLimitFile"
+        chown ${PUID:-1000}:${PGID:-1000} "/config/huntarr/$apiLimitFile"
     fi
 
     if find "/config/huntarr" -type f -iname "Huntarr-api-search-count-*.txt" | read; then
@@ -199,11 +203,13 @@ HuntarrProcess () {
         # create log folder for searched items
         if [ ! -d "/config/huntarr/$settingsFileName/$arrApp" ]; then
             mkdir -p "/config/huntarr/$settingsFileName/$arrApp"
+            chown ${PUID:-1000}:${PGID:-1000} "/config/huntarr/$settingsFileName/$arrApp"
         fi
 
         # create log of searched item
         if [ ! -f "/config/huntarr/$settingsFileName/$arrApp/$arrItemId" ]; then
             touch "/config/huntarr/$settingsFileName/$arrApp/$arrItemId"
+            chown ${PUID:-1000}:${PGID:-1000} "/config/huntarr/$settingsFileName/$arrApp/$arrItemId"
         fi        
     done
 }

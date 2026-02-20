@@ -71,6 +71,7 @@ logfileSetup () {
   
   if [ ! -f "$dockerPath/logs/$logFileName" ]; then
     echo "" > "$dockerPath/logs/$logFileName"
+  chown ${PUID:-1000}:${PGID:-1000} "$dockerPath/logs/$logFileName"
     chmod 666 "$dockerPath/logs/$logFileName"
   fi
 }
@@ -205,12 +206,14 @@ CompletedFileMover () {
     if [ ! -d "$lidarrMusicVideoLibrary" ]; then
         log "$processCount/$lidarrArtistCount :: $lidarrArtistName :: $videoIdProcess/$videoIdsCount :: $videoArtist :: $videoYear :: $videoType :: $videoTitle :: Creating Library Folder"
         mkdir -p "$lidarrMusicVideoLibrary"
+        chown ${PUID:-1000}:${PGID:-1000} "$lidarrMusicVideoLibrary"
         chmod 777 "$lidarrMusicVideoLibrary"
     fi
 
     if [ ! -d "$lidarrMusicVideoLibrary/$lidarrArtistFolder" ]; then
         log "$processCount/$lidarrArtistCount :: $lidarrArtistName :: $videoIdProcess/$videoIdsCount :: $videoArtist :: $videoYear :: $videoType :: $videoTitle :: Creating Artist Folder: $lidarrArtistFolder"
         mkdir -p "$lidarrMusicVideoLibrary/$lidarrArtistFolder"
+        chown ${PUID:-1000}:${PGID:-1000} "$lidarrMusicVideoLibrary/$lidarrArtistFolder"
         chmod 777 "$lidarrMusicVideoLibrary/$lidarrArtistFolder"
     fi
 
@@ -454,6 +457,7 @@ tidalProcess () {
         if [ ! -d "$logFolder" ]; then
             log "$processCount/$lidarrArtistCount :: $lidarrArtistName :: $videoIdProcess/$videoIdsCount :: $videoArtist :: $videoYear :: $videoType :: $videoTitle :: Creating log folder: $logFolder"
             mkdir -p "$logFolder"
+            chown ${PUID:-1000}:${PGID:-1000} "$logFolder"
             chmod 777 "$logFolder"
         fi
 
